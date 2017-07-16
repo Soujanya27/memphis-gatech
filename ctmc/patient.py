@@ -55,7 +55,12 @@ class Patient:
         self.T_obs = len(T)
 
     def get_observation_trajectory(self):
-        self.O = []
+        O = []
+        for t in self.observation_times:
+            ind = np.searchsorted(self.latent_trajectory[:,1],t)
+            O.append(self.latent_trajectory[ind-1,0])
+        self.O = np.array(O)
+            
 
     def discrete_sampler(self,pi0):
         val = np.random.uniform(0,1)
