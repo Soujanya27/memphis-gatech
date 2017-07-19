@@ -54,7 +54,7 @@ def Eigen_Nij_all_times(Q, patient,chain,globalParams,pi):
     for i in range(1,T):
         t = patient.observation_times[i]-patient.observation_times[i-1]
         I_matrix = np.zeros((num_state, num_state))
-        I_matrix[chain[i-1],chain[i]]=1
+        I_matrix[int(chain[i-1]),int(chain[i])]=1
         Psi_eigen = calculate_Psi_eigen(Q,t)
         Nij_mat += Eigen_Nij_time_interval(Q, I_matrix, t, Psi_eigen)
     return Nij_mat
@@ -67,7 +67,7 @@ def Eigen_TauI_all_times(Q,patient,chain,globalParams,pi):
     for i in range(1,T):
         t = patient.observation_times[i]-patient.observation_times[i-1]
         I_matrix = np.zeros((num_state,num_state))
-        I_matrix[chain[i-1],chain[i]]=1
+        I_matrix[int(chain[i-1]),int(chain[i])]=1
         Psi_eigen = calculate_Psi_eigen(Q,t)
         TauI += Eigen_TauI_time_interval(Q, I_matrix, t, Psi_eigen)
     return TauI
