@@ -1,7 +1,7 @@
 import numpy as np
-from patient import Patient
+from ctmc.patient import Patient
 
-from ctmc_expectations import Eigen_Nij_all_times, Eigen_TauI_all_times
+from ctmc.ctmc_expectations import Eigen_Nij_all_times, Eigen_TauI_all_times
 
 
 def EM_step(Q, patient, globalParams, pi0):
@@ -39,5 +39,5 @@ if __name__=='__main__':
 
     for i in range(50):
         globalParams['Q'] = EM_step(globalParams['Q'],patient,globalParams,pi0)
-        print Q_true
-        print globalParams['Q']
+        print (Q_true)
+        print (globalParams['Q'])
