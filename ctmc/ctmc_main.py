@@ -1,14 +1,16 @@
 import numpy as np
-from ctmc.patient import Patient
+from patient import Patient
 
-from ctmc.ctmc_expectations import Eigen_Nij_all_times, Eigen_TauI_all_times
+from ctmc_expectations import Eigen_Nij_all_times, Eigen_TauI_all_times
 
 
-def EM_step(Q, patient, globalParams, pi0):
+def EM_step(Q, patients, globalParams, pi0):
     num_state = globalParams['numStates']
-    chain = patient.O
-    Nij = Eigen_Nij_all_times(Q, patient, chain,globalParams,pi0)
-    TauI = Eigen_TauI_all_times(Q, patient,chain, globalParams,pi0)
+    for n in range(N):
+        patient = patients[n]
+        chain = patient.O
+        Nij = Eigen_Nij_all_times(Q, patient, chain,globalParams,pi0)
+        TauI = Eigen_TauI_all_times(Q, patient,chain, globalParams,pi0)
     for i in range(num_state):
         for j in range(num_state):
             if i!=j:
@@ -34,10 +36,15 @@ if __name__=='__main__':
     globalParams['numStates'] = 3
     T_max = 5000
 
-    patient = Patient()
-    patient.initialize_randomly(Q_true,globalParams,T_max,pi0)
+    N=2
+
+    patients = []
+    for n in range(N):
+        patient = Patient()
+        patient.initialize_randomly(Q_true,globalParams,T_max,pi0)
+        patients.append(patient)
 
     for i in range(50):
-        globalParams['Q'] = EM_step(globalParams['Q'],patient,globalParams,pi0)
+        globalParams['Q'] = EM_step(globalParams['Q'],patients,globalParams,pi0)
         print (Q_true)
         print (globalParams['Q'])
