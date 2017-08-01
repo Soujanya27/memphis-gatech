@@ -6,11 +6,13 @@ from ctmc_expectations import Eigen_Nij_all_times, Eigen_TauI_all_times
 
 def EM_step(Q, patients, globalParams, pi0):
     num_state = globalParams['numStates']
+    Nij = 0
+    TauI = 0
     for n in range(N):
         patient = patients[n]
         chain = patient.O
-        Nij = Eigen_Nij_all_times(Q, patient, chain,globalParams,pi0)
-        TauI = Eigen_TauI_all_times(Q, patient,chain, globalParams,pi0)
+        Nij += Eigen_Nij_all_times(Q, patient, chain,globalParams,pi0)
+        TauI += Eigen_TauI_all_times(Q, patient,chain, globalParams,pi0)
     for i in range(num_state):
         for j in range(num_state):
             if i!=j:
