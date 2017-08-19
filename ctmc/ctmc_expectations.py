@@ -70,8 +70,10 @@ def Eigen_TauI_all_times(Q, patient, chain, globalParams, pi):
     T = patient.T_obs
     num_state = np.shape(Q)[0]
     TauI = np.zeros(num_state)
+    total_t = 0
     for i in range(1,T):
         t = patient.observation_times[i]-patient.observation_times[i-1]
+        total_t += t
         I_matrix = np.zeros((num_state,num_state))
         I_matrix[int(chain[i-1]),int(chain[i])]=1
         Psi_eigen = calculate_Psi_eigen(Q,t)
